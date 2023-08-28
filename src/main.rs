@@ -26,8 +26,8 @@ fn switch(route: Route) -> Html {
     match route {
         Route::Login => html!(<Login/>),
         Route::Home => html!(<Home />),
-        Route::Rustaceans => todo!(),
-        Route::Crates => todo!(),
+        Route::Rustaceans => html!(<Home />),
+        Route::Crates => html!(<Home />),
         Route::NotFound => html!(<NotFound />),
     }
 }

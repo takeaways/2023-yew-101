@@ -1,20 +1,52 @@
 use crate::Route;
 use yew::prelude::*;
-use yew_router::prelude::Link;
+use yew_router::prelude::{use_route, Link};
 
 #[function_component(Sidebar)]
 pub fn sidebar() -> Html {
+    let current_route = use_route::<Route>().expect("No Current route defined");
+
+    let home_classes = {
+        if current_route == Route::Home {
+            classes!("nav-link", "active")
+        } else {
+            classes!("nav-link")
+        }
+    };
+
+    let rustaceans_classes = {
+        if current_route == Route::Rustaceans {
+            classes!("nav-link", "active")
+        } else {
+            classes!("nav-link")
+        }
+    };
+
+    let crates_classes = {
+        if current_route == Route::Crates {
+            classes!("nav-link", "active")
+        } else {
+            classes!("nav-link")
+        }
+    };
+
     html! {
        <nav class="navbar navbar-light">
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <Link<Route> to={Route::Home}>{"HOME"}</Link<Route>>
+            <Link<Route> to={Route::Home} classes={home_classes}>
+              {"HOME"}
+            </Link<Route>>
           </li>
           <li class="nav-item">
-            <Link<Route> to={Route::Rustaceans}>{"Rustaceans"}</Link<Route>>
+            <Link<Route> to={Route::Rustaceans} classes={rustaceans_classes}>
+              {"Rustaceans"}
+            </Link<Route>>
           </li>
           <li class="nav-item">
-            <Link<Route> to={Route::Crates}>{"Crates"}</Link<Route>>
+            <Link<Route> to={Route::Crates} classes={crates_classes}>
+              {"Crates"}
+            </Link<Route>>
           </li>
         </ul>
       </nav>
