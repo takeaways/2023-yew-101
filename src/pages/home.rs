@@ -1,6 +1,7 @@
 use yew::prelude::*;
 use yew_router::prelude::Redirect;
 
+use crate::components::sidebar::Sidebar;
 use crate::{api::user::User, contexts::CurrentUserContext, Route};
 
 #[function_component(Home)]
@@ -17,9 +18,15 @@ pub fn home() -> Html {
             } = user;
 
             html! {
-              <div class="container text-center">
-                <h1>{id}{"Welcome, "}{username}</h1>
-                <span>{created_at}</span>
+              <div class="container">
+                <div class="row">
+                  <div class="col-am-auto">
+                    <Sidebar/>
+                  </div>
+                  <div class="col-am-auto">
+                    {id}{username}{created_at}
+                  </div>
+                </div>
               </div>
             }
         }

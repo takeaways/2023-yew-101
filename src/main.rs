@@ -13,8 +13,8 @@ pub enum Route {
     Home,
     #[at("/rustaceans")]
     Rustaceans,
-    #[at("/creates")]
-    Creates,
+    #[at("/Crates")]
+    Crates,
     #[at("/login")]
     Login,
     #[not_found]
@@ -27,7 +27,7 @@ fn switch(route: Route) -> Html {
         Route::Login => html!(<Login/>),
         Route::Home => html!(<Home />),
         Route::Rustaceans => todo!(),
-        Route::Creates => todo!(),
+        Route::Crates => todo!(),
         Route::NotFound => html!(<NotFound />),
     }
 }
