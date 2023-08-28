@@ -4,6 +4,13 @@ use serde_json::json;
 
 use super::APP_HOST;
 
+#[derive(PartialEq)]
+pub struct User {
+    pub id: i32,
+    pub username: String,
+    pub created_at: String,
+}
+
 #[derive(Deserialize, Serialize)]
 pub struct LoginResponse {
     pub token: String,

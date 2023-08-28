@@ -1,10 +1,12 @@
-use gloo_console::log;
 use web_sys::HtmlInputElement;
 use yew::{platform::spawn_local, prelude::*};
+use yew_router::prelude::use_navigator;
 
 use crate::{
     api::user::{api_login, api_me, LoginResponse, MeResponse},
     components::{alert::Alert, input::Input},
+    contexts::{CurrentUserActions, CurrentUserContext, CurrentUserDispatchActions},
+    Route,
 };
 
 async fn login(
@@ -18,6 +20,10 @@ async fn login(
 
 #[function_component(LoginForm)]
 pub fn login_form() -> Html {
+    let navigator = use_navigator();
+    let current_user_ctx =
+        use_context::<CurrentUserContext>().expect("Current user context is missing");
+
     let username_handle = use_state(String::default);
     let password_handle = use_state(String::default);
     let error_message_handle = use_state(String::default);
@@ -48,10 +54,22 @@ pub fn login_form() -> Html {
         let cloned_username = cloned_username.clone();
         let cloned_password = cloned_password.clone();
         let cloned_error_handle = error_message_handle.clone();
+        let cloned_navigator = navigator.clone();
+        let cloned_current_user_ctx = current_user_ctx.clone();
 
         spawn_local(async move {
             match login(cloned_username.clone(), cloned_password.clone()).await {
-                Ok(responses) => log!(responses.1.username),
+                Ok(responses) => {
+                    cloned_current_user_ctx.dispatch(CurrentUserDispatchActions {
+                        action_type: CurrentUserActions::LoginSuccess,
+                        login_response: Some(responses.0),
+                        me_response: Some(responses.1),
+                    });
+
+                    if let Some(nav) = cloned_navigator {
+                        nav.push(&Route::Home);
+                    }
+                }
                 Err(e) => cloned_error_handle.set(e.to_string()),
             }
         })
@@ -60,7 +78,7 @@ pub fn login_form() -> Html {
     html! {
          <form onsubmit={onsubmit}>
             if error_message.len() > 0{
-             <Alert message={error_message}/>
+             <Alert alert_type="danger" message={error_message}/>
             }
             <div class="mb-3">
               <Input
