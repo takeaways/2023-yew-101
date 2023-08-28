@@ -2,9 +2,12 @@ use yew::prelude::*;
 
 #[function_component(App)]
 fn app() -> Html {
-    html! {
-        <div>{"Hello world"}</div>
-    }
+    html!(
+        <div>
+            <h2>{"Hello world"}</h2>
+            <p>{"this is working property"}</p>
+        </div>
+    )
 }
 
 fn main() {
