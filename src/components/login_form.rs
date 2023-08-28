@@ -41,7 +41,7 @@ pub fn login_form() -> Html {
               <Input
                 input_type="text"
                 name="username"
-                label="Username"
+                label="아이디"
                 value={username}
                 onchange={username_change}
               />
@@ -50,12 +50,12 @@ pub fn login_form() -> Html {
               <Input
                 input_type="password"
                 name="password"
-                label="Password"
+                label="비밀번호"
                 value={password}
                 onchange={password_change}
               />
             </div>
-            <button type="submit" class="btn btn-primary">{"Login"}</button>
+            <button type="submit" class="btn btn-primary">{"로그인"}</button>
           </form>
     }
 }
