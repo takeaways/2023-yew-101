@@ -43,11 +43,14 @@ impl Reducible for CurrentUser {
                 }
                 .into()
             }
-            CurrentUserActions::LoginFail => Self {
-                user: None,
-                token: None,
+            CurrentUserActions::LoginFail => {
+                SessionStorage::clear();
+                Self {
+                    user: None,
+                    token: None,
+                }
+                .into()
             }
-            .into(),
         }
     }
 }
