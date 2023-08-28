@@ -4,7 +4,7 @@ use yew::{platform::spawn_local, prelude::*};
 
 use crate::{
     api::user::{api_login, api_me, LoginResponse, MeResponse},
-    components::input::Input,
+    components::{alert::Alert, input::Input},
 };
 
 async fn login(
@@ -60,7 +60,7 @@ pub fn login_form() -> Html {
     html! {
          <form onsubmit={onsubmit}>
             if error_message.len() > 0{
-             <div>{error_message}</div>
+             <Alert message={error_message}/>
             }
             <div class="mb-3">
               <Input
