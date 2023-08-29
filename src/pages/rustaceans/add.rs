@@ -1,8 +1,6 @@
 use yew::prelude::*;
 
-use crate::components::{
-    header::Header, rustacean_form::RustaceanForm, rustacean_list::Crustaceansist, sidebar::Sidebar,
-};
+use crate::components::{header::Header, rustacean_form::RustaceanForm, sidebar::Sidebar};
 
 #[function_component(RustaceansAdd)]
 pub fn rustaceans_add() -> Html {

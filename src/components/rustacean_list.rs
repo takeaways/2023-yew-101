@@ -1,45 +1,55 @@
-use yew::{platform::spawn_local, prelude::*};
-use yew_router::prelude::{Link, Redirect};
+use yew::prelude::*;
+use yew_router::prelude::Link;
 
-use crate::{api::rustaceans::api_rustaceans, contexts::CurrentUserContext, Route};
+use crate::{contexts::CurrentUserContext, hooks::use_rustaceans, Route};
 
 #[function_component(Crustaceansist)]
-pub fn rustacean_list() -> Html {
+pub fn rustacean_list() -> HtmlResult {
     let current_user_ctx =
         use_context::<CurrentUserContext>().expect("Current user context is missing");
 
-    match &current_user_ctx.token {
-        Some(token) => {
-            let cloned_token = token.clone();
+    let token = current_user_ctx.token.as_ref().expect("Token not found!");
+    let rustaceans = use_rustaceans(&token)?;
 
-            spawn_local(async move {
-                api_rustaceans(&cloned_token).await;
-            });
-
-            html! {
-              <>
-                <p>
-                  <Link<Route> to={Route::RustaceansAdd}>
-                    {"+ Add new"}
-                  </Link<Route>>
-                </p>
-                <table class="table">
-                  <thead>
-                    <th>{"아이디"}</th>
-                    <th>{"이름"}</th>
-                    <th>{"이메일"}</th>
-                    <th>{"생성일"}</th>
-                    <th>{"Operations"}</th>
-                  </thead>
-                  <tbody>
-
-                  </tbody>
-                </table>
-              </>
+    Ok(html! {
+      <>
+        <p>
+          <Link<Route> to={Route::RustaceansAdd}>
+            {"+ Add new"}
+          </Link<Route>>
+        </p>
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <th scope="col">{"아이디"}</th>
+            <th scope="col">{"이름"}</th>
+            <th scope="col">{"이메일"}</th>
+            <th scope="col">{"생성일"}</th>
+            <th scope="col">{"Operations"}</th>
+          </thead>
+          <tbody>
+            {
+              rustaceans.into_iter().map(|rustacean|{
+                html!(
+                  <tr>
+                    <th scope="row">{rustacean.id}</th>
+                    <td>{rustacean.name}</td>
+                    <td>{rustacean.email}</td>
+                    <td>{rustacean.created_at}</td>
+                    <td>
+                      <Link<Route> to={Route::RustaceansAdd}>
+                        {"✏️ Edit"}
+                      </Link<Route>>
+                      <span>{"  /  "}</span>
+                      <Link<Route> to={Route::RustaceansAdd}>
+                        {"🗑️ delete"}
+                      </Link<Route>>
+                    </td>
+                  </tr>
+                )
+              }).collect::<Vec<Html>>()
             }
-        }
-        None => html!(
-          <Redirect<Route> to={Route::Login}/>
-        ),
-    }
+          </tbody>
+        </table>
+      </>
+    })
 }

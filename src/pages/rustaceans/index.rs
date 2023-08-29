@@ -4,6 +4,10 @@ use crate::components::{header::Header, rustacean_list::Crustaceansist, sidebar:
 
 #[function_component(Rustaceans)]
 pub fn rustaceans() -> Html {
+    let loading = html! {
+      <p>{"Loading..."}</p>
+    };
+
     html! {
       <div class="container">
         <div class="row">
@@ -12,7 +16,9 @@ pub fn rustaceans() -> Html {
           </div>
           <div class="col-sm-auto mt-3">
             <Header/>
-            <Crustaceansist/>
+            <Suspense fallback={loading}>
+              <Crustaceansist/>
+            </Suspense>
           </div>
         </div>
       </div>

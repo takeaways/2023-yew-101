@@ -10,6 +10,7 @@ use yew_router::{BrowserRouter, Routable, Switch};
 mod api;
 mod components;
 mod contexts;
+mod hooks;
 mod pages;
 
 #[derive(Routable, PartialEq, Clone)]
