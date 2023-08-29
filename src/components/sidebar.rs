@@ -2,7 +2,7 @@ use crate::Route;
 use yew::prelude::*;
 use yew_router::prelude::{use_route, Link};
 
-fn get_nav_classes(current_route: &Route, target_route: Route) -> Classes {
+pub fn get_nav_classes(current_route: &Route, target_route: Route) -> Classes {
     if *current_route == target_route {
         classes!("nav-link", "active")
     } else {

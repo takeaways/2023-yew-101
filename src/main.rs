@@ -1,4 +1,9 @@
-use pages::{home::Home, login::Login, not_found::NotFound};
+use pages::{
+    home::Home,
+    login::Login,
+    not_found::NotFound,
+    rustaceans::{add::RustaceansAdd, index::Rustaceans},
+};
 use yew::prelude::*;
 use yew_router::{BrowserRouter, Routable, Switch};
 
@@ -13,6 +18,8 @@ pub enum Route {
     Home,
     #[at("/rustaceans")]
     Rustaceans,
+    #[at("/rustaceans/add")]
+    RustaceansAdd,
     #[at("/Crates")]
     Crates,
     #[at("/login")]
@@ -26,7 +33,8 @@ fn switch(route: Route) -> Html {
     match route {
         Route::Login => html!(<Login/>),
         Route::Home => html!(<Home />),
-        Route::Rustaceans => html!(<Home />),
+        Route::Rustaceans => html!(<Rustaceans />),
+        Route::RustaceansAdd => html!(<RustaceansAdd />),
         Route::Crates => html!(<Home />),
         Route::NotFound => html!(<NotFound />),
     }
